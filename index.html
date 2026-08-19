@@ -129,14 +129,11 @@
     <!-- VIDEO SLOT · 1920×1080 — ضع الملف في assets/video/ ويعمل تلقائيًا.
          تبقى الصورة أعلاه ظاهرة حتى تبدأ اللقطة فعليًا بالتشغيل، فلا وميض ولا شاشة سوداء. -->
     <video class="hero__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
-      <source src="assets/video/hero.webm" type="video/webm">
       <source src="assets/video/hero.mp4" type="video/mp4">
     </video>
   </div>
 
   <div class="container hero__inner">
-    <p class="hero__eyebrow"><span class="dot" aria-hidden="true"></span> الرياض · المدينة الصناعية</p>
-
     <h1>
       <span class="rise" style="--i:0"><span>أفلام وأكياس بلاستيكية</span></span>
       <span class="rise" style="--i:1"><span><span class="accent">على مواصفاتك</span></span></span>
@@ -166,23 +163,6 @@
   <span class="scroll-cue" aria-hidden="true"></span>
 </section>
 
-<!-- =========================== MARQUEE =========================== -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee__track">
-    <div class="marquee__group">
-      <span class="marquee__item">أكياس تسوق</span><span class="marquee__item">أكياس بلدية</span>
-      <span class="marquee__item">أكياس نفايات</span><span class="marquee__item">أفلام بالبكرة</span>
-      <span class="marquee__item">أكياس حفظ الأغذية</span><span class="marquee__item">طباعة حسب الطلب</span>
-      <span class="marquee__item">تصنيع OEM</span><span class="marquee__item">توريد جملة</span>
-    </div>
-    <div class="marquee__group">
-      <span class="marquee__item">أكياس تسوق</span><span class="marquee__item">أكياس بلدية</span>
-      <span class="marquee__item">أكياس نفايات</span><span class="marquee__item">أفلام بالبكرة</span>
-      <span class="marquee__item">أكياس حفظ الأغذية</span><span class="marquee__item">طباعة حسب الطلب</span>
-      <span class="marquee__item">تصنيع OEM</span><span class="marquee__item">توريد جملة</span>
-    </div>
-  </div>
-</div>
 
 <!-- ============================ ABOUT ============================ -->
 <section class="section statement" id="about">
@@ -237,89 +217,137 @@
       <p class="lead reveal" style="--i:2">ستة خطوط — كلها قابلة للتخصيص بالمقاس والسماكة والطباعة.</p>
     </div>
 
-    <div class="bento">
+    <ul class="productlist">
+      <li class="productcard reveal">
+        <a href="#contact">
+          <span class="productcard__idx">01</span>
+          <h3>أكياس التسوق</h3>
+          <span class="productcard__tag">مطبوعة وغير مطبوعة</span>
+        </a>
+      </li>
+      <li class="productcard reveal">
+        <a href="#contact">
+          <span class="productcard__idx">02</span>
+          <h3>أكياس بلدية ونفايات</h3>
+          <span class="productcard__tag">سماكات متدرجة</span>
+        </a>
+      </li>
+      <li class="productcard reveal">
+        <a href="#contact">
+          <span class="productcard__idx">03</span>
+          <h3>أكياس حفظ الأغذية</h3>
+          <span class="productcard__tag">للمطاعم والتجزئة</span>
+        </a>
+      </li>
+      <li class="productcard reveal">
+        <a href="#contact">
+          <span class="productcard__idx">04</span>
+          <h3>أفلام بالبكرة</h3>
+          <span class="productcard__tag">عرض وسماكة حسب الطلب</span>
+        </a>
+      </li>
+      <li class="productcard reveal">
+        <a href="#contact">
+          <span class="productcard__idx">05</span>
+          <h3>تصنيع حسب الطلب</h3>
+          <span class="productcard__tag">OEM بمواصفتك</span>
+        </a>
+      </li>
+      <li class="productcard reveal">
+        <a href="#contact">
+          <span class="productcard__idx">06</span>
+          <h3>الطباعة على الأكياس</h3>
+          <span class="productcard__tag">بشعارك وبياناتك</span>
+        </a>
+      </li>
+    </ul>
 
-      <a class="tile reveal" href="#contact">
-        <!-- IMAGE SLOT · 900×900 — أكياس تسوق -->
-        <img src="assets/img/ph/prod-shopping.jpg" alt="أكياس تسوق بلاستيكية" loading="lazy" width="900" height="900">
-        <span class="tile__idx">01</span>
-        <div class="tile__body">
-          <div>
-            <h3>أكياس التسوق</h3>
-            <span class="tile__tag">مطبوعة وغير مطبوعة</span>
-          </div>
-          <span class="tile__go" aria-hidden="true"><svg class="arrow-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-
-      <a class="tile reveal" href="#contact">
-        <!-- IMAGE SLOT · 900×900 — أكياس بلدية ونفايات -->
-        <img src="assets/img/ph/prod-refuse.jpg" alt="أكياس نفايات سوداء فائقة المتانة من إنتاج روائع الإنتاج، ملفوفة ومعبأة" loading="lazy" width="900" height="900">
-        <span class="tile__idx">02</span>
-        <div class="tile__body">
-          <div>
-            <h3>أكياس بلدية ونفايات</h3>
-            <span class="tile__tag">سماكات متدرجة</span>
-          </div>
-          <span class="tile__go" aria-hidden="true"><svg class="arrow-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-
-      <a class="tile reveal" href="#contact">
-        <!-- IMAGE SLOT · 900×900 — أكياس حفظ الأغذية -->
-        <img src="assets/img/ph/prod-food.jpg" alt="أكياس حفظ وتخزين المواد الغذائية" loading="lazy" width="900" height="900">
-        <span class="tile__idx">03</span>
-        <div class="tile__body">
-          <div>
-            <h3>أكياس حفظ الأغذية</h3>
-            <span class="tile__tag">للمطاعم والتجزئة</span>
-          </div>
-          <span class="tile__go" aria-hidden="true"><svg class="arrow-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-
-      <a class="tile reveal" href="#contact">
-        <!-- IMAGE SLOT · 900×900 — أفلام بالبكرة -->
-        <img src="assets/img/ph/prod-film.jpg" alt="لفة فيلم بلاستيكي بزاوية تُظهر طبقات اللف" loading="lazy" width="900" height="900">
-        <span class="tile__idx">04</span>
-        <div class="tile__body">
-          <div>
-            <h3>أفلام بالبكرة</h3>
-            <span class="tile__tag">عرض وسماكة حسب الطلب</span>
-          </div>
-          <span class="tile__go" aria-hidden="true"><svg class="arrow-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-
-      <a class="tile reveal" href="#contact">
-        <!-- IMAGE SLOT · 900×900 — تصنيع حسب الطلب -->
-        <img src="assets/img/ph/prod-custom.jpg" alt="تصنيع بلاستيك حسب مواصفات العميل" loading="lazy" width="900" height="900">
-        <span class="tile__idx">05</span>
-        <div class="tile__body">
-          <div>
-            <h3>تصنيع حسب الطلب</h3>
-            <span class="tile__tag">OEM بمواصفتك</span>
-          </div>
-          <span class="tile__go" aria-hidden="true"><svg class="arrow-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-
-      <a class="tile reveal" href="#contact">
-        <!-- IMAGE SLOT · 900×900 — الطباعة على الأكياس -->
-        <img src="assets/img/ph/prod-print.jpg" alt="عبوة أكياس مطبوع عليها شعار مصنع روائع الإنتاج بوضوح" loading="lazy" width="900" height="900">
-        <span class="tile__idx">06</span>
-        <div class="tile__body">
-          <div>
-            <h3>الطباعة على الأكياس</h3>
-            <span class="tile__tag">بشعارك وبياناتك</span>
-          </div>
-          <span class="tile__go" aria-hidden="true"><svg class="arrow-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
-        </div>
-      </a>
-
+    <!-- ===================== COLOR SHOWCASE ===================== -->
+    <div class="colors-head">
+      <p class="kicker reveal">الألوان المتوفرة</p>
+      <h3 class="reveal">أكياس النفايات — بعدة ألوان وسماكات</h3>
+      <p class="lead reveal">اضغط على أي بطاقة لتصفح صور المنتج.</p>
     </div>
+
+    <div class="colorwall">
+      <button type="button" class="colorcard reveal" data-color="yellow" data-label="أصفر" aria-haspopup="dialog">
+        <span class="colorcard__stage">
+          <img class="is-on" src="assets/img/ph/colors/yellow-1.jpg" alt="أكياس نفايات صفراء من إنتاج روائع الإنتاج" loading="lazy">
+          <img src="assets/img/ph/colors/yellow-2.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/yellow-3.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/yellow-4.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/yellow-5.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/yellow-6.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/yellow-7.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/yellow-8.jpg" alt="" loading="lazy">
+        </span>
+        <span class="colorcard__label"><span class="colorcard__sw" style="--sw:#E8C34A"></span> أصفر</span>
+      </button>
+
+      <button type="button" class="colorcard reveal" data-color="black" data-label="أسود" aria-haspopup="dialog">
+        <span class="colorcard__stage">
+          <img class="is-on" src="assets/img/ph/colors/black-1.jpg" alt="أكياس نفايات سوداء من إنتاج روائع الإنتاج" loading="lazy">
+          <img src="assets/img/ph/colors/black-2.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/black-3.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/black-4.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/black-5.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/black-6.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/black-7.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/black-8.jpg" alt="" loading="lazy">
+        </span>
+        <span class="colorcard__label"><span class="colorcard__sw" style="--sw:#14130F"></span> أسود</span>
+      </button>
+
+      <button type="button" class="colorcard reveal" data-color="white" data-label="أبيض" aria-haspopup="dialog">
+        <span class="colorcard__stage">
+          <img class="is-on" src="assets/img/ph/colors/white-1.jpg" alt="أكياس نفايات بيضاء من إنتاج روائع الإنتاج" loading="lazy">
+          <img src="assets/img/ph/colors/white-2.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/white-3.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/white-4.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/white-5.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/white-6.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/white-7.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/white-8.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/white-9.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/white-10.jpg" alt="" loading="lazy">
+        </span>
+        <span class="colorcard__label"><span class="colorcard__sw" style="--sw:#F7F3EA"></span> أبيض</span>
+      </button>
+
+      <button type="button" class="colorcard reveal" data-color="blue" data-label="أزرق" aria-haspopup="dialog">
+        <span class="colorcard__stage">
+          <img class="is-on" src="assets/img/ph/colors/blue-1.jpg" alt="أكياس نفايات زرقاء من إنتاج روائع الإنتاج" loading="lazy">
+          <img src="assets/img/ph/colors/blue-2.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/blue-3.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/blue-4.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/blue-5.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/blue-6.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/blue-7.jpg" alt="" loading="lazy">
+          <img src="assets/img/ph/colors/blue-8.jpg" alt="" loading="lazy">
+        </span>
+        <span class="colorcard__label"><span class="colorcard__sw" style="--sw:#3E6FB0"></span> أزرق</span>
+      </button>
+    </div>
+
   </div>
 </section>
+
+<!-- Lightbox for the colour showcase -->
+<div class="lightbox" id="color-lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="معرض صور المنتج">
+  <button type="button" class="lightbox__close" aria-label="إغلاق">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button type="button" class="lightbox__nav lightbox__prev" aria-label="السابق">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <figure class="lightbox__frame">
+    <img class="lightbox__img" src="" alt="">
+    <figcaption class="lightbox__count"></figcaption>
+  </figure>
+  <button type="button" class="lightbox__nav lightbox__next" aria-label="التالي">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+</div>
 
 <!-- ====================== PROCESS (showcase) ====================== -->
 <section class="section section--dark" id="process">
@@ -333,20 +361,7 @@
       <p class="lead reveal" style="--i:2">ست مراحل داخل المصنع — كل واحدة نقطة ضبط للمواصفة.</p>
     </div>
 
-    <div class="showcase">
-
-      <div class="showcase__media">
-        <div class="showcase__stack">
-          <!-- IMAGE SLOTS · 1100×820 — صورة لكل مرحلة إنتاج -->
-          <figure class="shot is-on"><img src="assets/img/ph/step-1.jpg" alt="الخامة والتجهيز" loading="lazy" width="1100" height="820"></figure>
-          <figure class="shot"><img src="assets/img/ph/step-2.jpg" alt="نفخ الفيلم" loading="lazy" width="1100" height="820"></figure>
-          <figure class="shot"><img src="assets/img/ph/step-3.jpg" alt="الطباعة" loading="lazy" width="1100" height="820"></figure>
-          <figure class="shot"><img src="assets/img/ph/step-4.jpg" alt="القص واللحام" loading="lazy" width="1100" height="820"></figure>
-          <figure class="shot"><img src="assets/img/ph/step-5.jpg" alt="الفحص والمطابقة" loading="lazy" width="1100" height="820"></figure>
-          <figure class="shot"><img src="assets/img/ph/step-6.jpg" alt="التعبئة والتسليم" loading="lazy" width="1100" height="820"></figure>
-          <span class="showcase__counter">01 / 06</span>
-        </div>
-      </div>
+    <div class="showcase showcase--centered">
 
       <ol class="showcase__steps">
         <li class="pstep is-on">
@@ -451,12 +466,9 @@
 <!-- ============================ SECTORS ============================ -->
 <section class="section" id="sectors">
   <div class="container">
-    <div class="section-head section-head--split">
-      <div>
-        <p class="kicker reveal">القطاعات</p>
-        <h2 class="reveal" style="--i:1">من نُورّد لهم</h2>
-      </div>
-      <p class="lead reveal" style="--i:2">جهات تشتري بكميات تجارية وتحتاج توريدًا منتظمًا.</p>
+    <div class="section-head">
+      <p class="kicker reveal">القطاعات</p>
+      <h2 class="reveal" style="--i:1">من نُورّد لهم</h2>
     </div>
 
     <div class="rail">
@@ -675,7 +687,7 @@
           </li>
         </ul>
 
-        <a class="map-card" href="https://www.google.com/maps/search/?api=1&amp;query=%D8%A7%D9%84%D9%85%D8%AF%D9%8A%D9%86%D8%A9+%D8%A7%D9%84%D8%B5%D9%86%D8%A7%D8%B9%D9%8A%D8%A9+%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6" target="_blank" rel="noopener">
+        <a class="map-card" href="https://maps.app.goo.gl/qSfsLoF8jM1CXYm48?g_st=iwb" target="_blank" rel="noopener">
           <svg class="map-card__lines" viewBox="0 0 400 190" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
             <path d="M-10 40h420M-10 96h420M-10 150h420" opacity=".3"/>
             <path d="M70 -10v210M180 -10v210M300 -10v210" opacity=".3"/>
@@ -738,7 +750,11 @@
 
     <div class="footer__bottom">
       <span>© <span id="year">2026</span> مصنع روائع الإنتاج للبلاستيك — جميع الحقوق محفوظة.</span>
-      <span><a href="en/" hreflang="en" lang="en" dir="ltr">English</a></span>
+      <span>
+        <a href="en/" hreflang="en" lang="en" dir="ltr">English</a>
+        <span aria-hidden="true"> · </span>
+        <a href="https://shotix.space" target="_blank" rel="noopener" dir="ltr">developed by shotix</a>
+      </span>
     </div>
 
   </div>

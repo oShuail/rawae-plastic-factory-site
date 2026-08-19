@@ -51,14 +51,17 @@
     } else {
       heroVideo.addEventListener('playing', function () {
         heroVideo.classList.add('is-playing');
-      }, { once: true });
+      });
 
-      heroVideo.addEventListener('error', function () {
-        heroVideo.remove();
-      }, { once: true });
-
+      // Calling play() alone is enough to trigger the resource-selection
+      // algorithm on a preload="none" element — no separate .load() call.
+      // Pairing an explicit .load() with an immediate .play() races the
+      // browser's own fetch, sometimes aborting it (net::ERR_ABORTED) and
+      // firing a spurious 'error' on the element before the real, successful
+      // request lands. There's nothing to actively recover from on error:
+      // the still image already covers the video (opacity:0 until
+      // 'playing' fires), so a truly broken source just leaves it in place.
       heroVideo.preload = 'auto';
-      heroVideo.load();
       var attempt = heroVideo.play();
       if (attempt && attempt.catch) {
         attempt.catch(function () { /* autoplay refused — the still stands in */ });
@@ -182,6 +185,78 @@
       steps.forEach(function (s) { stepIO.observe(s); });
     }
     activate(0);
+  }
+
+  /* ------------------------------------------------------------------
+     Colour showcase — each card's stage auto-shuffles through its photo
+     set; clicking a card opens the same set in a full-screen lightbox.
+     ------------------------------------------------------------------ */
+  var colorcards = $$('.colorcard');
+  if (colorcards.length) {
+    if (!reduced) {
+      colorcards.forEach(function (card) {
+        var imgs = $$('img', $('.colorcard__stage', card));
+        if (imgs.length < 2) return;
+        var i = 0;
+        setInterval(function () {
+          imgs[i].classList.remove('is-on');
+          i = (i + 1) % imgs.length;
+          imgs[i].classList.add('is-on');
+        }, 2600 + Math.random() * 600);
+      });
+    }
+
+    var lightbox = $('#color-lightbox');
+    if (lightbox) {
+      var lbImg    = $('.lightbox__img', lightbox);
+      var lbCount  = $('.lightbox__count', lightbox);
+      var lbPrev   = $('.lightbox__prev', lightbox);
+      var lbNext   = $('.lightbox__next', lightbox);
+      var lbClose  = $('.lightbox__close', lightbox);
+      var lbImages = [];
+      var lbIndex  = 0;
+      var lastFocus = null;
+
+      var showLb = function (index) {
+        lbIndex = (index + lbImages.length) % lbImages.length;
+        var src = lbImages[lbIndex].currentSrc || lbImages[lbIndex].src;
+        lbImg.src = src;
+        lbImg.alt = lbImages[lbIndex].alt || '';
+        lbCount.textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+      };
+      var openLb = function (card) {
+        lbImages = $$('img', $('.colorcard__stage', card));
+        if (!lbImages.length) return;
+        lastFocus = doc.activeElement;
+        showLb(0);
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        doc.body.classList.add('nav-open');
+        lbClose.focus();
+      };
+      var closeLb = function () {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        doc.body.classList.remove('nav-open');
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      };
+
+      colorcards.forEach(function (card) {
+        card.addEventListener('click', function () { openLb(card); });
+      });
+      lbClose.addEventListener('click', closeLb);
+      lbPrev.addEventListener('click', function () { showLb(lbIndex - 1); });
+      lbNext.addEventListener('click', function () { showLb(lbIndex + 1); });
+      lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) closeLb();
+      });
+      doc.addEventListener('keydown', function (e) {
+        if (!lightbox.classList.contains('is-open')) return;
+        if (e.key === 'Escape') closeLb();
+        if (e.key === 'ArrowLeft') showLb(lbIndex - 1);
+        if (e.key === 'ArrowRight') showLb(lbIndex + 1);
+      });
+    }
   }
 
   /* ------------------------------------------------------------------
