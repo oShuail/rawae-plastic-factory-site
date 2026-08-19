@@ -205,7 +205,7 @@ html[lang="ar"] .kicker {
 .media--reveal img {
   clip-path: inset(0 0 100% 0);
   transform: scale(1.14);
-  transition: clip-path 1.15s var(--ease), transform 1.6s var(--ease);
+  transition: clip-path .7s var(--ease), transform .95s var(--ease);
 }
 .media--reveal.is-in img { clip-path: inset(0 0 0 0); transform: scale(1); }
 
@@ -622,26 +622,47 @@ html[lang="ar"] .badge__k { font-family: var(--font-ar); letter-spacing: 0; text
    10. Product list + colour showcase
    -------------------------------------------------------------------------- */
 .productlist {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
 }
-.productcard { background: var(--paper); }
+/* Cards flow 3 / 2 / 1 per row purely on available width. The basis divides
+   6 evenly at every count, so a row is never left half-empty (which is what
+   exposed the grey container background underneath). */
+.productcard {
+  flex: 1 1 calc(100% / 3 - 1px);
+  min-inline-size: min(240px, 100%);
+  background: var(--paper);
+}
 .productcard a {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
   padding: clamp(1.3rem, 2.4vw, 1.9rem) clamp(1.1rem, 2vw, 1.5rem);
   transition: background-color .4s var(--ease);
 }
 .productcard a:hover { background: color-mix(in srgb, var(--gold) 8%, var(--paper)); }
+.productcard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-block-end: .9rem;
+}
+.productcard__icon {
+  inline-size: 26px; block-size: 26px;
+  flex: none;
+  color: var(--gold-deep);
+  transition: transform .4s var(--ease);
+}
+.productcard a:hover .productcard__icon { transform: translateY(-2px); }
 .productcard__idx {
-  display: block;
   font-family: var(--font-mono); font-size: .68rem;
   letter-spacing: .14em; color: var(--gold-deep);
-  margin-block-end: .9rem;
 }
 .productcard h3 { font-size: 1.05rem; font-weight: 600; }
 .productcard__tag {
@@ -883,7 +904,7 @@ html[lang="ar"] .badge__k { font-family: var(--font-ar); letter-spacing: 0; text
   position: absolute; inset-block-start: -1px; inset-inline-start: 0;
   inline-size: 100%; block-size: 1px; background: var(--gold-light);
   transform: scaleX(0); transform-origin: inline-start;
-  transition: transform .9s var(--ease);
+  transition: transform .5s var(--ease);
 }
 .claim.is-in::after { transform: scaleX(1); }
 .claim__n { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em; color: var(--gold-light); }
@@ -974,7 +995,7 @@ html[lang="ar"] .vm__card p { line-height: 1.7; }
   position: relative;
   background: var(--paper);
   padding: clamp(1.4rem, 2.6vw, 2.1rem);
-  display: flex; align-items: center; gap: 1rem;
+  display: flex; align-items: flex-start; gap: 1rem;
   overflow: hidden;
   transition: background-color .45s var(--ease);
 }
@@ -987,6 +1008,8 @@ html[lang="ar"] .vm__card p { line-height: 1.7; }
 }
 .reason:hover .reason__n { color: var(--gold); }
 .reason h3 { font-size: 1.05rem; font-weight: 600; }
+.reason p { margin-block-start: .4rem; font-size: .85rem; line-height: 1.6; color: var(--muted); }
+.reason p { margin-block-start: .4rem; font-size: .85rem; line-height: 1.6; color: var(--muted); }
 
 /* --------------------------------------------------------------------------
    17. Gallery
@@ -1077,6 +1100,21 @@ html[lang="ar"] .gallery figcaption { font-family: var(--font-ar); letter-spacin
 .field.is-invalid .field__err { display: block; }
 .form__actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
 .form__note { font-size: .78rem; color: var(--muted-2); display: flex; gap: .5rem; align-items: flex-start; }
+
+/* Honeypot — off-screen for people, still fillable by bots. Not display:none,
+   which many bots skip. */
+.hp {
+  position: absolute !important;
+  inline-size: 1px; block-size: 1px;
+  overflow: hidden; clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.form__status { font-size: .82rem; line-height: 1.5; min-block-size: 1.25em; }
+.form__status.is-pending { color: var(--muted-2); }
+.form__status.is-ok { color: var(--gold-deep); font-weight: 500; }
+.form__status.is-err { color: #C2523F; }
+.btn[disabled] { opacity: .55; pointer-events: none; }
 .form__note svg { inline-size: 14px; block-size: 14px; color: var(--gold); flex: none; margin-block-start: .3rem; }
 
 .contact-list { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
@@ -1207,8 +1245,8 @@ html[lang="ar"] .footer h4 { font-family: var(--font-ar); letter-spacing: .03em;
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity .9s var(--ease), transform .9s var(--ease);
-  transition-delay: calc(var(--i, 0) * 70ms);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+  transition-delay: calc(var(--i, 0) * 35ms);
 }
 .reveal.is-in { opacity: 1; transform: none; }
 
@@ -1249,8 +1287,6 @@ html[lang="ar"] .footer h4 { font-family: var(--font-ar); letter-spacing: .03em;
   .burger { display: inline-flex; }
   .section-head--split { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 1rem; }
 
-  .productlist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
   /* Sticky media moves above the steps */
   .showcase { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
   .showcase__media { inset-block-start: var(--header-h); z-index: 2; padding-block: .75rem; background: var(--ink); }
@@ -1288,7 +1324,6 @@ html[lang="ar"] .footer h4 { font-family: var(--font-ar); letter-spacing: .03em;
   .fact { padding-inline: 0 !important; padding-block: 1rem; }
   .badge { position: static; margin-block-start: .9rem; max-inline-size: none; box-shadow: none; }
 
-  .productlist { grid-template-columns: minmax(0, 1fr); }
   .colorwall { grid-template-columns: minmax(0, 1fr); }
   .lightbox__close, .lightbox__nav { inline-size: 40px; block-size: 40px; }
   .lightbox__close { inset-block-start: 10px; inset-inline-end: 10px; }

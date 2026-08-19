@@ -61,7 +61,15 @@
       // request lands. There's nothing to actively recover from on error:
       // the still image already covers the video (opacity:0 until
       // 'playing' fires), so a truly broken source just leaves it in place.
+      // Pick the cut before anything is fetched: the light 960px encode on
+      // phones and small tablets, the full 1920px one elsewhere. Assigning
+      // .src is what kicks off the media load algorithm, so no .load() call
+      // is needed (and adding one would race the fetch — see above).
+      var narrow = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+      var src = (narrow && heroVideo.getAttribute('data-src-narrow')) || heroVideo.getAttribute('data-src');
+
       heroVideo.preload = 'auto';
+      if (src) heroVideo.src = src;
       var attempt = heroVideo.play();
       if (attempt && attempt.catch) {
         attempt.catch(function () { /* autoplay refused — the still stands in */ });
@@ -141,7 +149,7 @@
         entry.target.classList.add('is-in');
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px -2% 0px' });
 
     revealables.forEach(function (el) {
       // auto-stagger: index within the group of revealables sharing a parent
@@ -150,7 +158,7 @@
           return c.classList && c.classList.contains('reveal');
         });
         var i = group.indexOf(el);
-        if (i > 0) el.style.setProperty('--i', Math.min(i, 8));
+        if (i > 0) el.style.setProperty('--i', Math.min(i, 6));
       }
       io.observe(el);
     });
@@ -313,23 +321,29 @@
     var T = isAR ? {
       required: 'هذا الحقل مطلوب',
       phone: 'أدخل رقم جوال صحيح',
-      title: 'طلب عرض سعر — مصنع روائع الإنتاج للبلاستيك',
+      title: 'طلب عرض سعر · مصنع روائع الإنتاج للبلاستيك',
       labels: {
         name: 'الاسم', company: 'الجهة / الشركة', phone: 'الجوال', email: 'البريد الإلكتروني',
         product: 'المنتج', size: 'المقاس', thickness: 'السماكة', qty: 'الكمية',
         printing: 'الطباعة', notes: 'ملاحظات'
       },
-      none: 'غير محدد'
+      none: 'غير محدد',
+      sending: 'جارٍ الإرسال…',
+      sent: 'وصلنا طلبك، ونتواصل معك قريبًا.',
+      failed: 'تعذر إرسال البريد. جرّب مرة ثانية أو استخدم واتساب.'
     } : {
       required: 'This field is required',
       phone: 'Enter a valid phone number',
-      title: 'Quote request — RAWAE AL INTAJ Plastic Factory',
+      title: 'Quote Request · RAWAE AL INTAJ Plastic Factory',
       labels: {
         name: 'Name', company: 'Company', phone: 'Phone', email: 'Email',
         product: 'Product', size: 'Size', thickness: 'Thickness', qty: 'Quantity',
         printing: 'Printing', notes: 'Notes'
       },
-      none: 'Not specified'
+      none: 'Not specified',
+      sending: 'Sending…',
+      sent: 'Your request is in. We’ll get back to you soon.',
+      failed: 'We couldn’t send the email. Try again or use WhatsApp.'
     };
 
     var setError = function (field, msg) {
@@ -363,16 +377,19 @@
       });
     });
 
-    var compose = function () {
-      var get = function (n) {
-        var el = form.elements[n];
-        if (!el) return '';
-        if (el.tagName === 'SELECT') {
-          return el.selectedIndex > -1 ? el.options[el.selectedIndex].text.trim() : '';
-        }
-        return el.value.trim();
-      };
-      var rows = [
+    var get = function (n) {
+      var el = form.elements[n];
+      if (!el) return '';
+      if (el.tagName === 'SELECT') {
+        return el.selectedIndex > -1 ? el.options[el.selectedIndex].text.trim() : '';
+      }
+      return el.value.trim();
+    };
+
+    /* Filled-in fields as [label, value] pairs — shared by the WhatsApp text
+       and the email payload so both carry exactly the same enquiry. */
+    var rows = function () {
+      return [
         [T.labels.name,      get('name')],
         [T.labels.company,   get('company')],
         [T.labels.phone,     get('phone')],
@@ -383,9 +400,11 @@
         [T.labels.qty,       get('qty')],
         [T.labels.printing,  get('printing')],
         [T.labels.notes,     get('notes')]
-      ];
-      var body = rows
-        .filter(function (r) { return r[1]; })
+      ].filter(function (r) { return r[1]; });
+    };
+
+    var compose = function () {
+      var body = rows()
         .map(function (r) { return r[0] + ': ' + r[1]; })
         .join('\n');
       return T.title + '\n\n' + body;
@@ -398,14 +417,60 @@
       window.open('https://wa.me/' + wa + '?text=' + encodeURIComponent(compose()), '_blank', 'noopener');
     });
 
-    var mailBtn = $('#quote-email');
+    /* ---- Email: posted to Web3Forms, which relays it to data-email ---- */
+    var mailBtn  = $('#quote-email');
+    var statusEl = $('#quote-status');
+
+    var setStatus = function (msg, state) {
+      if (!statusEl) return;
+      statusEl.textContent = msg || '';
+      statusEl.className = 'form__status' + (state ? ' is-' + state : '');
+    };
+
     if (mailBtn) {
       mailBtn.addEventListener('click', function () {
         if (!validate()) return;
-        var to = form.getAttribute('data-email');
-        window.location.href = 'mailto:' + to +
-          '?subject=' + encodeURIComponent(T.title) +
-          '&body=' + encodeURIComponent(compose());
+
+        var key = form.getAttribute('data-w3f-key') || '';
+        var to  = form.getAttribute('data-email');
+
+        /* No access key pasted in yet — hand off to the visitor's mail app so
+           the button still does something. Dead code once the key is set. */
+        if (!key || key.indexOf('REPLACE_WITH') === 0) {
+          window.location.href = 'mailto:' + to +
+            '?subject=' + encodeURIComponent(T.title) +
+            '&body=' + encodeURIComponent(compose());
+          return;
+        }
+
+        var bot = form.elements.botcheck;
+        var payload = {
+          access_key: key,
+          subject: T.title,
+          from_name: get('name') || 'rawae-plastic.com',
+          botcheck: !!(bot && bot.checked),
+          message: compose()
+        };
+        if (get('email')) payload.replyto = get('email');
+        rows().forEach(function (r) { payload[r[0]] = r[1]; });
+
+        mailBtn.disabled = true;
+        setStatus(T.sending, 'pending');
+
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            if (!data || !data.success) throw new Error(data && data.message);
+            setStatus(T.sent, 'ok');
+            form.reset();
+            $$('.field.is-invalid', form).forEach(function (f) { f.classList.remove('is-invalid'); });
+          })
+          .catch(function () { setStatus(T.failed, 'err'); })
+          .then(function () { mailBtn.disabled = false; });
       });
     }
   }
