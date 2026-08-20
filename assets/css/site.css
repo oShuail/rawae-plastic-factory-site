@@ -1259,15 +1259,11 @@ html[lang="ar"] .footer h4 { font-family: var(--font-ar); letter-spacing: .03em;
 }
 .is-loaded .rise > span { transform: none; }
 
-.brand__mark path {
-  stroke-dasharray: var(--len, 400);
-  stroke-dashoffset: var(--len, 400);
-  animation: draw 1.5s var(--ease) forwards;
+.brand__mark { animation: mark-in 1.1s var(--ease) both; }
+@keyframes mark-in {
+  from { clip-path: inset(0 100% 0 0); opacity: .3; }
+  to   { clip-path: inset(0 0 0 0);    opacity: 1; }
 }
-.brand__mark path:nth-child(2) { animation-delay: .12s; }
-.brand__mark path:nth-child(3) { animation-delay: .24s; }
-.brand__mark path:nth-child(4) { animation-delay: .36s; }
-@keyframes draw { to { stroke-dashoffset: 0; } }
 
 /* --------------------------------------------------------------------------
    23. Responsive
@@ -1311,8 +1307,7 @@ html[lang="ar"] .footer h4 { font-family: var(--font-ar); letter-spacing: .03em;
 @media (max-width: 720px) {
   :root { --header-h: 68px; }
   body { padding-block-end: 56px; }
-  .fab { inset-block-end: 74px; inline-size: 50px; block-size: 50px; }
-  .fab svg { inline-size: 24px; block-size: 24px; }
+  .fab { display: none; }
   .action-bar { display: grid; }
 
   .hero { min-block-size: auto; padding-block-start: calc(var(--header-h) + 3.5rem); }
@@ -1359,7 +1354,7 @@ html[lang="ar"] .footer h4 { font-family: var(--font-ar); letter-spacing: .03em;
   .reveal, .rise > span { opacity: 1 !important; transform: none !important; }
   .media--reveal img { clip-path: none !important; }
   .media--reveal img, .hero__bg img { transform: none !important; }
-  .brand__mark path { stroke-dashoffset: 0 !important; }
+  .brand__mark { animation: none !important; clip-path: none !important; }
   .pstep { opacity: 1 !important; }
   .claim::after { transform: scaleX(1) !important; }
 }

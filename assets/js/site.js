@@ -14,16 +14,6 @@
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || doc).querySelectorAll(sel)); };
 
   /* ------------------------------------------------------------------
-     Logo stroke draw-in — measure each path so the dash animation fits
-     ------------------------------------------------------------------ */
-  $$('.brand__mark path').forEach(function (p) {
-    try {
-      var len = Math.ceil(p.getTotalLength());
-      p.style.setProperty('--len', len);
-    } catch (e) { /* getTotalLength unsupported — path just shows */ }
-  });
-
-  /* ------------------------------------------------------------------
      Hero headline rise (after fonts settle, so lines don't reflow mid-animation)
      ------------------------------------------------------------------ */
   function markLoaded() { doc.body.classList.add('is-loaded'); }
@@ -196,15 +186,19 @@
   }
 
   /* ------------------------------------------------------------------
-     Colour showcase — each card's stage auto-shuffles through its photo
-     set; clicking a card opens the same set in a full-screen lightbox.
+     Colour showcase — each card shows a fixed hero shot (stages marked
+     data-rotate cycle through that many leading images instead); clicking a
+     card opens the card's full photo set in a full-screen lightbox.
      ------------------------------------------------------------------ */
   var colorcards = $$('.colorcard');
   if (colorcards.length) {
     if (!reduced) {
       colorcards.forEach(function (card) {
-        var imgs = $$('img', $('.colorcard__stage', card));
-        if (imgs.length < 2) return;
+        var stage = $('.colorcard__stage', card);
+        var rotate = Math.min(parseInt(stage.getAttribute('data-rotate'), 10) || 1,
+                              $$('img', stage).length);
+        if (rotate < 2) return;
+        var imgs = $$('img', stage).slice(0, rotate);
         var i = 0;
         setInterval(function () {
           imgs[i].classList.remove('is-on');
